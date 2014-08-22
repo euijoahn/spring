@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<!-- default tile -->
+	<definition name="default" template="/WEB-INF/page/Layout.jsp">
+		<put-attribute name="header" value="" />
+		<put-attribute name="main" value="" />
+		<put-attribute name="footer" value="/WEB-INF/page/layout/footer/footer.jsp" />
+		<put-attribute name="left" value="/WEB-INF/page/layout/left/left.jsp" />
+	</definition>
+	
+	<!-- Logincheck -->
+	<definition name="check" template="/WEB-INF/page/checkLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/blank.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/blank.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/page/layout/footer/blank.jsp" />
+		<put-attribute name="left" value="/WEB-INF/page/layout/left/blank.jsp" />
+	</definition>
+	
+	<!-- 초기 화면 -->
+	<definition name="index" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header.jsp" />
+		<put-attribute name="main" value="/WEB-INF/views/index.jsp" />
+	</definition>
+	
+	<!-- Login/Logout -->
+	<definition name="login" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/login.jsp" />
+	</definition>
+	
+	<definition name="loginsuccess" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/loginsuccess.jsp" />
+	</definition>
+	
+	<definition name="loginfail" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/loginfail.jsp" />
+	</definition>
+	
+	<definition name="logout" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/blank.jsp" />
+	</definition>
+	
+	<!-- Join -->
+	<definition name="join" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/join.jsp" />
+	</definition>
+	
+	<definition name="joincomplete" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/complete.jsp" />
+	</definition>
+	
+	<definition name="joinfailed" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/joinfail.jsp" />
+	</definition>
+	
+	<!-- Board -->
+	<definition name="board" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/board.jsp" />
+	</definition>
+	
+	<definition name="selboard" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/selBoard.jsp" />
+	</definition>
+	
+	<definition name="ediboard" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/ediboard.jsp" />
+	</definition>
+	
+	<definition name="insboard" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/insertboard.jsp" />
+	</definition>
+	
+	<definition name="insertcompleteboard" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/complete.jsp" />
+	</definition>
+	
+	<definition name="attendboard" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/attendboard.jsp" />
+	</definition>
+	
+	<definition name="attendboardcomplete" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/complete.jsp" />
+	</definition>
+	
+	<definition name="deleteattendboard" extends="default">
+		<put-attribute name="header" value="/WEB-INF/page/layout/header/header2.jsp" />
+		<put-attribute name="main" value="/WEB-INF/page/layout/main/complete.jsp" />
+	</definition>
+	
+</tiles-definitions>

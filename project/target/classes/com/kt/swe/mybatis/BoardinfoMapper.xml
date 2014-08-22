@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kt.swe.DAO.BoardInfoMapper">
+	<resultMap type="Boardinfo" id="BoardinfoResultMap">
+		<result property="BoardAttributeNum" column="BoardAttributeNum" />
+		<result property="BoardTitle" column="BoardTitle" />
+		<result property="CreateDate" column="CreateDate" />
+		<result property="User" column="User" />
+		<result property="numberofboard" column="numberofboard" />
+	</resultMap>
+	
+	<!-- select -->
+	<select id="allBoard" resultMap="BoardinfoResultMap">
+  		SELECT BoardAttributeNum, BoardTitle, User FROM Board;
+  	</select>
+  	
+  	<!-- select one board -->
+  	<select id="oneBoard" resultMap="BoardinfoResultMap">
+  		SELECT * FROM Board WHERE BoardTitle = #{BoardTitle}
+  	</select>
+  	
+  	<!-- select one board -->
+  	<select id="count" resultMap="BoardinfoResultMap">
+  		SELECT count(*) AS count FROM Board
+  	</select>
+  	
+  	<!-- select one board by BoardAttributeNum -->
+  	<select id="oneattributeBoard" resultMap="BoardinfoResultMap">
+  		SELECT * FROM Board WHERE BoardAttributeNum = #{BoardAttributeNum}
+  	</select>
+  	
+  	<!-- insert -->
+  	<insert id="insertBoard">
+  		INSERT INTO board(BoardAttributeNum, BoardTitle, CreateDate, User, numberofboard) VALUES (#{BoardAttributeNum}, #{BoardTitle}, now(), #{User}, #{numberofboard})
+  	</insert>
+  	
+  	<!-- delete -->
+  	<delete id="deleteBoard">
+  		DELETE FROM board WHERE BoardAttributeNum = #{BoardAttributeNum}
+  	</delete>
+  	
+  	<!-- update -->
+  	<update id="updatenumberofboard">
+  		UPDATE board SET
+  			numberofboard = ${numberofboard}
+  		WHERE BoardAttributeNum = #{BoardAttributeNum}
+  	</update>
+</mapper>

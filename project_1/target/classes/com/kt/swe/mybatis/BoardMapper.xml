@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kt.swe.DAO.BoardMapper">
+	<resultMap type="Boards" id="BoardsResultMap">
+  		<result property="ContentAttributeNum" column="ContentAttributeNum" />
+  		<result property="BoardAttributeNum" column="BoardAttributeNum" />
+  		<result property="Creator" column="Creator " />
+  		<result property="CreatorID" column="CreatorID" />
+  		<result property="ContentTitle" column="ContentTitle" />
+  		<result property="Content" column="Content" />
+  		<result property="IP" column="IP" />
+  		<result property="Hit" column="Hit" />
+  	</resultMap>
+  	
+  	<!-- select Board member -->
+  	<select id="selectBoard" resultMap="BoardsResultMap">
+  		SELECT * FROM boardcontent WHERE BoardAttributeNum = #{BoardAttributeNum}
+  	</select>
+  	
+  	<!-- select count -->
+  	<select id="selectBoardcount" resultMap="BoardsResultMap">
+  		SELECT COUNT("CreatorID") FROM boardcontent
+  	</select>
+  	
+  	<!-- select Board one member -->
+  	<select id="selectoneBoard" resultMap="BoardsResultMap">
+  		SELECT * FROM boardcontent WHERE ContentAttributeNum = #{ContentAttributeNum}
+  	</select>
+  	
+  	<!-- insert -->
+  	<insert id="insertBoard">
+  		INSERT INTO 
+  				boardcontent(ContentAttributeNum,
+  								BoardAttributeNum, 
+  								CreateDate, 
+  								Creator, 
+								CreatorID, 
+								ContentTitle,
+								Content,
+								IP,
+								Hit) 
+				VALUES (#{ContentAttributeNum}, 
+						#{BoardAttributeNum}, 
+						now(), 
+						#{Creator}, 
+						#{CreatorID}, 
+						#{ContentTitle}, 
+						#{Content}, 
+						#{IP}, 
+						#{Hit})
+  	</insert>
+  	
+  	<!-- delete -->
+  	<delete id="deleteBoard">
+  		DELETE FROM boardcontent WHERE ContentAttributeNum = #{ContentAttributeNum}
+  	</delete>
+  	
+  	<!-- delete by BoardAttributeNum -->
+  	<delete id="deleteoneattributeBoard">
+  		DELETE FROM boardcontent WHERE BoardAttributeNum = #{BoardAttributeNum}
+  	</delete>
+  	
+  	<!-- update -->
+  	<update id="updateBoard">
+  		UPDATE boardcontent SET
+  			ContentTitle = #{ContentTitle},
+  			Content = #{Content}
+  		WHERE ContentAttributeNum = #{ContentAttributeNum}
+  	</update>
+</mapper>

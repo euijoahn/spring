@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	
+	<!-- mybatis 설정 : DB관련 일을 할때는 mapper file, DAO file 등등 아래의 경로에서 찾는다. -->
+	<context:component-scan base-package="com.kt.swe.*"/>
+	
+	
+	<!-- 아래의 태그를 사용함으로 BeanPostProcessor 를 함께 등록해 주므로
+		RequiredAnnotationBeanPostProcessor(@Required 어노테이션 처리), 
+		AytowiredAnnotationBeanPostProcessor(@Autowired 어노테이션 처리),
+		CommonAnnotationBeanPostProcessor(@Resource, @PostConstruct, @PreDestroy 어노테이션 처리), 
+		ConfigurationClassPostProcessor(@Configuration 어노테이션 처리)
+		기능을 사용할 수 있다.
+	-->
+	<context:annotation-config />
+	
+	
+	<!-- DB에 연결하기 위해서는 Sql Driver, DB Server 주소와 테이블이름, User, Password 가 필요하다. 
+		 이때 외부 파일에 있는 정보를 불러와서 필요할 때마다 사용할수 있다. 
+		 값을 직접 입력할 수도 있지만 간편한 변경을 위해서 아래와 같이 만들었다.
+	-->
+	<bean id="jdbcProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:mysql.properties" />
+	</bean>
+	
+	
+	<!-- 외부파일에서 가져온 정보를 바탕으로 SQL과 연결을 한다. -->
+	<bean id="dataSourceSpied"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+			<property name="driverClass" value="${jdbc.driver}"></property>
+			<property name="url" value="${jdbc.url}"></property>
+			<property name="username" value="${jdbc.username}"></property>
+			<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	
+	
+	<!-- SQL과 관련된 모든 기록들을 Console 창에서 볼수 있도록 해준다. -->
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+			<property name="logFormatter">
+				<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+					<property name="loggingType" value="MULTI_LINE" />
+					<property name="sqlPrefix" value="SQL:::" />
+				</bean>
+			</property>
+	</bean>
+	
+	
+	<!-- Transaction 설정을 통해서 하나 이상의 쿼리에서 동일한 연결을 가지게 해준다. 
+		 즉, 여러개의 쿼리에서 한개의 데이터베이스에 연결하도록 도와주는 것이다. 
+	-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	
+	<!-- MyBatis-Spring의 기능으로써 Spring과 MyBatis가 연결할수 있도록 해준다. -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.kt.swe.DAO"></property>
+		<property name="mapperLocations" value="classpath:com/kt/swe/mybatis/*.xml"></property>
+	</bean>
+	
+	
+	<!-- MyBatis-Spring의 핵심 기능이며 MyBatis SqlSessions 관리 및 MyBatis SQL method 호출을 담당한다. -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+</beans>

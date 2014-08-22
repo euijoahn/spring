@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kt.swe.DAO.MemberMapper">
+  <!-- <cache-ref namespace=""/> -->
+  	<resultMap type="Members" id="MembersResultMap">
+  		<result property="ID" column="ID" />
+  		<result property="Password" column="Password" />
+  		<result property="Name" column="Name" />
+  		<result property="Phone_num" column="Phone_num" />
+  		<result property="Jdate" column="Jdate" />
+  	</resultMap>
+  	
+  	<!-- select -->
+  	<select id="allMember" resultMap="MembersResultMap">
+  		SELECT * FROM User
+  	</select>
+  	
+  	<!-- select one member -->
+  	<select id="selectMember" resultMap="MembersResultMap">
+  		SELECT * FROM User WHERE ID = #{ID}
+  	</select>
+  	
+  	<!-- insert -->
+  	<insert id="insertMember">
+  		INSERT INTO User(ID, Password, Name, Phone_num, Jdate) VALUES (#{ID}, #{Password}, #{Name}, #{Phone_num}, now())
+  	</insert>
+  	
+  	<!-- update -->
+  	<update id="updateMember">
+  		UPDATE member SET
+  			Password = #{Password},
+  			Name = #{Name},
+  			Phone_num = #{Phone_num}
+  			Jdate = now();
+  		WHERE ID = #{ID}
+  	</update>
+  	
+  	<!-- delete -->
+  	<delete id="deleteMember">
+  		DELETE FROM member WHERE ID = #{ID}
+  	</delete>
+</mapper>

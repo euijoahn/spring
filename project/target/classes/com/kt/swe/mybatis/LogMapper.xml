@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kt.swe.DAO.LogMapper">
+	<resultMap type="Logs" id="LogResultMap">
+		<result property="DATE" column="DATE" />
+		<result property="ID" column="ID" />
+		<result property="num" column="num" />
+		<result property="Attri" column="Attri" />
+	</resultMap>
+	
+	<!-- insert -->
+  	<insert id="insertLog">
+  		INSERT INTO log(DATE, ID, num, Attri) VALUES(now(), #{ID}, #{num}, (SELECT ATTRI FROM logcontent WHERE num = #{num}))
+  	</insert>
+</mapper>

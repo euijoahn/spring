@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!-- Controller가 보내준 view를 View보다 TilesView가 먼저 보고 어떤 화면을 출력할껀지 결정한다. 
+		Priority 1 : TilesView
+		Priority 2 : InternalResourceViewResolver
+	-->
+	<bean
+		id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/page/" />
+			<property name="suffix" value=".jsp" />
+			<property name="order" value="2" />
+	</bean>
+	<bean 
+		id="tilesViewResolver"
+		class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" >
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
+		<property name="order" value="1" />
+	</bean>
+	
+		
+	<!-- 어떤 형태의 tile을 출력할것인지를 찾아야되는데, 그것을 아래에 있는 tiles-defs.xml에서 찾도록 위치를 지정해준다. -->
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions" value="/WEB-INF/page/tiles-defs.xml" />
+	</bean>
+</beans>
